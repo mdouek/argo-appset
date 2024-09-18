@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: appset-dev
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: "https://github.com/mdouek/argo-appset.git"
+        directories:
+          - path: 'envs/dev/*.yaml'
+            recurse: false
+
+  template:
+    metadata:
+      name: '{{path.basename}}-dev'
+    spec:
+      project: default
+      source:
+        repoURL: "https://github.com/mdouek/argo-appset.git"
+        targetRevision: HEAD
+        path: 'charts/{{path.basename}}'   # Here we extract the chart path using the basename trick
+        helm:
+          valueFiles:
+            - "envs/dev/{{path.basename}}.yaml"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
