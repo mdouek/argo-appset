@@ -9,7 +9,7 @@ spec:
   generators:
     - git:
         directories:
-          - path: envs/dev/*.yaml
+          - path: envs/dev/helloworld.yaml
             recurse: false
         repoURL: 'https://github.com/mdouek/argo-appset.git'
         revision: HEAD
