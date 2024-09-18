@@ -14,19 +14,19 @@ spec:
         revision: HEAD
   template:
     metadata:
-      name: '{{path.basename}}-dev'
+      name: '{{path.filename}}'
     spec:
       destination:
-        namespace: '{{path.basename}}'
+        namespace: '{{path.filename}}'
         server: 'https://kubernetes.default.svc'
       project: default
       source:
         repoURL: 'https://github.com/mdouek/argo-appset.git'
         targetRevision: HEAD
-        path: 'charts/{{path.basename}}'
+        path: 'charts/{{path.filename}}'
         helm:
           valueFiles:
-            - '../../envs/dev/{{path.basename}}.yaml'
+            - '../../envs/dev/{{path.filename}}.yaml'
       syncPolicy:
         automated:
           prune: true
