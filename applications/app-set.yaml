@@ -6,12 +6,13 @@ metadata:
   name: appset-dev
   namespace: argocd
 spec:
-generators:
-  - git:
-      files:
-        - path: envs/dev/helloworld.yaml
-      repoURL: 'https://github.com/mdouek/argo-appset.git'
-      revision: HEAD
+  generators:
+    - git:
+        directories:
+          - path: envs/dev/*
+            recurse: false
+        repoURL: 'https://github.com/mdouek/argo-appset.git'
+        revision: HEAD
   template:
     metadata:
       name: '{{path.basename}}-dev'
