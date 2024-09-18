@@ -1,32 +1,30 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  labels:
-    app.kubernetes.io/instance: appset
   name: appset-dev
   namespace: argocd
 spec:
   generators:
     - git:
-        files:
-          - path: "envs/dev/*.yaml"
         repoURL: 'https://github.com/mdouek/argo-appset.git'
         revision: HEAD
+        files:
+          - path: "environments/dev/*.yaml"
   template:
     metadata:
-      name: '{{path.filename}}'
+      name: '{{ trimSuffix ".yaml" (base .path) }}'
     spec:
-      destination:
-        namespace: '{{path.filename}}'
-        server: 'https://kubernetes.default.svc'
       project: default
       source:
         repoURL: 'https://github.com/mdouek/argo-appset.git'
         targetRevision: HEAD
-        path: 'charts/{{path.filename}}'
+        path: 'charts/{{ trimSuffix ".yaml" (base .path) }}'
         helm:
           valueFiles:
-            - '../../envs/dev/{{path.filename}}.yaml'
+            - '../../{{.path}}'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: '{{ trimSuffix ".yaml" (base .path) }}'
       syncPolicy:
         automated:
           prune: true
