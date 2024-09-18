@@ -8,9 +8,8 @@ metadata:
 spec:
   generators:
     - git:
-        directories:
-          - path: envs/dev/*
-            recurse: false
+        files:
+          - path: "envs/dev/*.yaml"
         repoURL: 'https://github.com/mdouek/argo-appset.git'
         revision: HEAD
   template:
@@ -27,7 +26,7 @@ spec:
         path: 'charts/{{path.basename}}'
         helm:
           valueFiles:
-            - 'envs/dev/{{path.basename}}.yaml'
+            - '../../envs/dev/{{path.basename}}.yaml'
       syncPolicy:
         automated:
           prune: true
