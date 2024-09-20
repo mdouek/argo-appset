@@ -22,13 +22,16 @@ spec:
         namespace: '{{ index (splitList "." .path.filenameNormalized) 0 }}'
         server: 'https://kubernetes.default.svc'
       project: default
-      source:
-        repoURL: '{{.helm.repoURL}}'
-        targetRevision: '{{.helm.targetRevision}}'
+      sources:
+      - repoURL: '{{.helm.repoURL}}'
         chart: '{{.helm.chart}}'
+        targetRevision: '{{.helm.targetRevision}}'
         helm:
           valueFiles:
-            - '../../envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
+            - '$values/envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
+      - repoURL: 'https://github.com/mdouek/argo-appset.git'
+        targetRevision: HEAD
+        ref: values
       syncPolicy:
         automated:
           prune: true
