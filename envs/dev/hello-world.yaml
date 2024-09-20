@@ -1,3 +1,7 @@
 service:
   type: LoadBalancer
   port: 80
+helm:
+  repoURL: "https://portainer.github.io/k8s/"
+  chart: hello-world
+  targetRevision: 0.1.0 # Specify the version of Portainer you want to deploy

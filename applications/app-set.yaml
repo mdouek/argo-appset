@@ -23,9 +23,9 @@ spec:
         server: 'https://kubernetes.default.svc'
       project: default
       source:
-        repoURL: 'https://github.com/mdouek/argo-appset.git'
-        targetRevision: HEAD
-        path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
+        repoURL: '{{.helm.repoURL}}'
+        targetRevision: '{{.helm.targetRevision}}'
+        chart: '{{.helm.chart}}'
         helm:
           valueFiles:
             - '../../envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
