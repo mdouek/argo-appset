@@ -23,11 +23,11 @@ spec:
       sources:
       - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
         targetRevision: '{{ .targetRevision | default "HEAD" }}'
-        {{ - if .chart }}
+        {{- if .chart }}
         chart: '{{ .chart }}'
-        {{ - else }}
+        {{- else }}
         path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
-        {{ - end }}
+        {{- end }}
         helm:
           valueFiles:
             - '$values/envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
