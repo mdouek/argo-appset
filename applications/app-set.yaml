@@ -23,11 +23,35 @@ spec:
       sources:
       - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
         targetRevision: '{{ .targetRevision | default "HEAD" }}'
-        # Assuming 'chart' might not always be present, we use default path for both
-        path: '{{ if hasKey . "chart" }}{{ .chart }}{{ else }}charts/{{ index (splitList "." .path.filenameNormalized) 0 }}{{ end }}'
+        path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
         helm:
           valueFiles:
-            - 'values/envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
+            - '$values/envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
+      - repoURL: 'https://github.com/mdouek/argo-appset.git'
+        targetRevision: HEAD
+        ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+  # Second template assuming 'chart' key is present
+  template:
+    metadata:
+      name: '{{ index (splitList "." .path.filenameNormalized) 0 }}-chart'
+    spec:
+      destination:
+        namespace: '{{ index (splitList "." .path.filenameNormalized) 0 }}'
+        server: 'https://kubernetes.default.svc'
+      project: default
+      sources:
+      - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
+        targetRevision: '{{ .targetRevision | default "HEAD" }}'
+        chart: '{{ .chart }}'
+        helm:
+          valueFiles:
+            - '$values/envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
       - repoURL: 'https://github.com/mdouek/argo-appset.git'
         targetRevision: HEAD
         ref: values
