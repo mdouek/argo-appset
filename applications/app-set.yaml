@@ -4,13 +4,11 @@ metadata:
   name: appset-dev
   namespace: argocd
 spec:
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
         files:
           - path: "envs/dev/*.yaml"
-        repoURL: 'https://github.com/mdouek/argo-appset.git'
+        repoURL: "https://github.com/mdouek/argo-appset.git"
         revision: HEAD
   template:
     metadata:
@@ -18,19 +16,15 @@ spec:
     spec:
       destination:
         namespace: '{{ index (splitList "." .path.filenameNormalized) 0 }}'
-        server: 'https://kubernetes.default.svc'
+        server: "https://kubernetes.default.svc"
       project: default
       source:
-        repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
-        targetRevision: '{{ .targetRevision | default "HEAD" }}'
-        {{- if .Values.chart }}
-          chart: '{{ .Values.chart }}'
-        {{- else }}
-          path: 'charts/{{ .path.basename }}'
-        {{- end }}
+        repoURL: "{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}"
+        targetRevision: "{{ .targetRevision | default "HEAD" }}"
+        path: "charts/{{ index (splitList "/" .path | last 1 | split "." | first 1 | list) 0 }}"
         helm:
           valueFiles:
-            - '../../envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
+            - "../../envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml"
       syncPolicy:
         automated:
           prune: true
