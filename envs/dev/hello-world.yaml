@@ -9,4 +9,5 @@ ingress:
     - host: hello-world.mdouek.com
       paths:
         - /
+        
 name: hello-world
