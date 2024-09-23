@@ -1,8 +1,7 @@
-chartRepository: https://charts.jenkins.io
-chartName: jenkins
-chartVersion: 4.3.20
+repoURL: https://charts.jenkins.io
+targetRevision: 4.3.20
+chart: jenkins
 
-# Jenkins Controller configurations
 controller:
   ingress:
     enabled: true

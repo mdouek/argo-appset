@@ -1,8 +1,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  labels:
-    app.kubernetes.io/instance: appset
   name: appset-dev
   namespace: argocd
 spec:
@@ -23,15 +21,13 @@ spec:
         server: 'https://kubernetes.default.svc'
       project: default
       source:
-        {{ if .chartRepository }}
-        repoURL: '{{ .chartRepository }}'
-        targetRevision: '{{ .chartVersion }}'
-        chart: '{{ .chartName }}'
-        {{ else }}
-        repoURL: 'https://github.com/mdouek/argo-appset.git'
-        targetRevision: HEAD
-        path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
-        {{ end }}
+        repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
+        targetRevision: '{{ .targetRevision | default "HEAD" }}'
+        {{- if .chart }}
+        chart: '{{ .chart }}'
+        {{- else }}
+        path: 'charts/{{ .path.basename }}'
+        {{- end }}
         helm:
           valueFiles:
             - '../../envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
