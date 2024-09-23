@@ -21,34 +21,9 @@ spec:
         server: 'https://kubernetes.default.svc'
       project: default
       sources:
-      - repoURL: '{{ "https://github.com/mdouek/argo-appset.git" }}'
-        targetRevision: '{{ "HEAD" }}'
-        path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
-        helm:
-          valueFiles:
-            - '$values/envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
-      - repoURL: 'https://github.com/mdouek/argo-appset.git'
-        targetRevision: HEAD
-        ref: values
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
-  # Second template assuming 'chart' key is present
-  template:
-    metadata:
-      name: '{{ index (splitList "." .path.filenameNormalized) 0 }}-chart'
-    spec:
-      destination:
-        namespace: '{{ index (splitList "." .path.filenameNormalized) 0 }}'
-        server: 'https://kubernetes.default.svc'
-      project: default
-      sources:
       - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
-        targetRevision: '{{ .targetRevision }}'
-        chart: '{{ .chart }}'
+        targetRevision: '{{ .targetRevision | default "HEAD" }}'
+        path: ''
         helm:
           valueFiles:
             - '$values/envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
@@ -61,3 +36,13 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+  templatePatch: |
+    spec:
+      source:
+        {{- if .chart }}
+        chart: '{{ .chart }}'
+        path: null  # Ensures the path is not set if the chart is defined
+        {{- else }}
+        path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
+        chart: null  # Ensures the chart is not set if the path is defined
+        {{- end }}
