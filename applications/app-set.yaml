@@ -19,16 +19,6 @@ spec:
         namespace: '{{ index (splitList "." .path.filenameNormalized) 0 }}'
         server: 'https://kubernetes.default.svc'
       project: default
-      sources:
-      - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
-        targetRevision: '{{ .targetRevision | default "HEAD" }}'
-        path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
-        helm:
-          valueFiles:
-            - '$values/envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
-      - repoURL: 'https://github.com/mdouek/argo-appset.git'
-        targetRevision: HEAD
-        ref: values
       syncPolicy:
         automated:
           prune: true
@@ -43,6 +33,9 @@ spec:
         {{- if .chart }}
         chart: '{{ .chart }}'
         path: null  # Ensures the path is not set if the chart is defined
+        {{- else }}
+        path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
+        chart: null
         {{- end }}
         helm:
           valueFiles:
