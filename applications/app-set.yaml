@@ -21,8 +21,8 @@ spec:
         server: 'https://kubernetes.default.svc'
       project: default
       sources:
-      - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
-        targetRevision: '{{ .targetRevision | default "HEAD" }}'
+      - repoURL: '{{ "https://github.com/mdouek/argo-appset.git" }}'
+        targetRevision: '{{ "HEAD" }}'
         path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
         helm:
           valueFiles:
@@ -47,7 +47,7 @@ spec:
       project: default
       sources:
       - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
-        targetRevision: '{{ .targetRevision | default "HEAD" }}'
+        targetRevision: '{{ .targetRevision }}'
         chart: '{{ .chart }}'
         helm:
           valueFiles:
