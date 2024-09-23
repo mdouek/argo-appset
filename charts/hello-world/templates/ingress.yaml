@@ -4,10 +4,6 @@ kind: Ingress
 metadata:
   name: {{ .Values.name }}
   namespace: {{ .Values.namespace }}
-  annotations:
-    {{- range $key, $value := .Values.ingress.annotations }}
-    {{ $key }}: {{ $value | quote }}
-    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.ingressClassName }}
   rules:
@@ -20,7 +16,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ $.Values.ingress.serviceName }}
+                name: {{ .Values.name  }}
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}

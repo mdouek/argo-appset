@@ -3,10 +3,10 @@ service:
   port: 80
   
 ingress:
-  serviceName: hello-world
   enabled: true
   ingressClassName: nginx
   hosts:
     - host: hello-world.mdouek.com
       paths:
         - /
+name: hello-world
