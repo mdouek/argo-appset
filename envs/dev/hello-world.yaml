@@ -3,6 +3,7 @@ service:
   port: 80
   
 ingress:
+  serviceName: hello-world
   enabled: true
   ingressClassName: nginx
   hosts:
