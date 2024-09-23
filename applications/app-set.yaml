@@ -23,7 +23,7 @@ spec:
       sources:
       - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
         targetRevision: '{{ .targetRevision | default "HEAD" }}'
-        path: ''
+        path: path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
         helm:
           valueFiles:
             - '$values/envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
@@ -42,7 +42,4 @@ spec:
         {{- if .chart }}
         chart: '{{ .chart }}'
         path: null  # Ensures the path is not set if the chart is defined
-        {{- else }}
-        path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
-        chart: null  # Ensures the chart is not set if the path is defined
         {{- end }}
