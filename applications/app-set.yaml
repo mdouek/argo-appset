@@ -23,8 +23,8 @@ spec:
       source:
         repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
         targetRevision: '{{ .targetRevision | default "HEAD" }}'
-        {{- if .chart }}
-          chart: '{{ .chart }}'
+        {{- if .Values.chart }}
+          chart: '{{ .Values.chart }}'
         {{- else }}
           path: 'charts/{{ .path.basename }}'
         {{- end }}
