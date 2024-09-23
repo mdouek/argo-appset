@@ -32,7 +32,7 @@ spec:
         targetRevision: '{{ .targetRevision | default "HEAD" }}'
         {{- if .chart }}
         chart: '{{ .chart }}'
-        path: null  # Ensures the path is not set if the chart is defined
+        path: null
         {{- else }}
         path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
         chart: null
