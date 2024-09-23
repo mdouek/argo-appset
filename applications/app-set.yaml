@@ -22,16 +22,19 @@ spec:
         namespace: '{{ index (splitList "." .path.filenameNormalized) 0 }}'
         server: 'https://kubernetes.default.svc'
       project: default
-      sources:
-      - repoURL: '{{.helm.repoURL}}'
-        chart: '{{.helm.chart}}'
-        targetRevision: '{{.helm.targetRevision}}'
+      source:
+        {{ if .chartRepository }}
+        repoURL: '{{ .chartRepository }}'
+        targetRevision: '{{ .chartVersion }}'
+        chart: '{{ .chartName }}'
+        {{ else }}
+        repoURL: 'https://github.com/mdouek/argo-appset.git'
+        targetRevision: HEAD
+        path: 'charts/{{ index (splitList "." .path.filenameNormalized) 0 }}'
+        {{ end }}
         helm:
           valueFiles:
-            - '$values/envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
-      - repoURL: 'https://github.com/mdouek/argo-appset.git'
-        targetRevision: HEAD
-        ref: values
+            - '../../envs/dev/{{ index (splitList "." .path.filenameNormalized) 0 }}.yaml'
       syncPolicy:
         automated:
           prune: true

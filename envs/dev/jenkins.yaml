@@ -1,0 +1,13 @@
+chartRepository: https://charts.jenkins.io
+chartName: jenkins
+chartVersion: 4.3.20
+
+# Jenkins Controller configurations
+controller:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    hostName: jenkins.mdouek.com
+    path: "/"
