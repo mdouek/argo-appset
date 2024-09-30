@@ -33,7 +33,7 @@ spec:
   templatePatch: |
     spec:
       source:
-        repoURL: '{{ .repoURL | default "git@github.com:Prodege-Prod/prdg-apps-kubernetes.git" }}'
+        repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
         targetRevision: '{{ .targetRevision | default "HEAD" }}'
         chart: '{{ .chart | default "null" }}'
         path: '{{ .chartPath | default "null" }}'
