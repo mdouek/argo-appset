@@ -3,7 +3,7 @@ environments:
   dev:
     clusters:
       default:
-        applications:
+        apps:
           - name: hello-world
             chart: hello-world
             version: HEAD
