@@ -19,7 +19,7 @@ spec:
               elementsYaml: "{{ .applications | toJson }}"
   template:
     metadata:
-      name: 'dev--{{ .applications.name }}'
+      name: 'dev-{{ .applications.name }}'
     spec:
       project: default
       source:
