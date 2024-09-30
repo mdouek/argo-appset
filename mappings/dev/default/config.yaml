@@ -3,10 +3,11 @@ applications:
     path: charts/hello-world
     namespace: hello-world
     valuesFile: envs/dev/hello-world-values.yaml
-    localChart: true
+    repoURL: null
   - name: jenkins
     repoURL: https://charts.jenkins.io
     chart: jenkins
     targetRevision: 5.6.4
     namespace: jenkins
     valuesFile: envs/dev/jenkins-values.yaml
+    path: null
