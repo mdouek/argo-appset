@@ -1,6 +1,6 @@
 applications:
   - name: hello-world
-    path: charts/hello-world
+    chartPath: charts/hello-world
     namespace: hello-world
     valuesFile: envs/dev/hello-world-values.yaml
   - name: jenkins

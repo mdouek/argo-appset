@@ -36,7 +36,7 @@ spec:
         repoURL: '{{ .repoURL | default "git@github.com:Prodege-Prod/prdg-apps-kubernetes.git" }}'
         targetRevision: '{{ .targetRevision | default "HEAD" }}'
         chart: '{{ .chart | default "null" }}'
-        path: '{{ .path | default "null" }}'
+        path: '{{ .chartPath | default "null" }}'
         helm:
           valueFiles:
             - 'envs/dev/environment-values.yaml'
