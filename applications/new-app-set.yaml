@@ -34,30 +34,10 @@ spec:
   templatePatch: |
     spec:
       source:
-        repoURL: |
-          {{- if .localChart }}
-          https://github.com/mdouek/argo-appset.git
-          {{- else }}
-          {{ .repoURL }}
-          {{- end }}
-        targetRevision: |
-          {{- if .localChart }}
-          HEAD
-          {{- else }}
-          {{ .version }}
-          {{- end }}
-        chart: |
-          {{- if .localChart }}
-          null
-          {{- else }}
-          {{ .chart }}
-          {{- end }}
-        path: |
-          {{- if .localChart }}
-          charts/{{ .chart }}
-          {{- else }}
-          null
-          {{- end }}
+        repoURL: '{{ .repoURL | default "git@github.com:Prodege-Prod/prdg-apps-kubernetes.git" }}'
+        targetRevision: '{{ .targetRevision | default "HEAD" }}'
+        chart: '{{ .chart | default "null" }}'
+        path: '{{ .path | default "null" }}'
         helm:
           valueFiles:
             - 'envs/dev/environment-values.yaml'
