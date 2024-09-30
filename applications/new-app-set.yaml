@@ -16,7 +16,7 @@ spec:
                 - path: "mappings/dev/*/config.yaml"
           - list:
               elements: []
-              elementsYaml: "{{  | toJson }}"
+              elementsYaml: "{{ .applications | toJson }}"
   template:
     metadata:
       name: 'dev-{{ .name }}'
