@@ -32,8 +32,8 @@ spec:
           - CreateNamespace=true
   templatePatch: |
     spec:
-      source:
-        repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
+      sources:
+      - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
         targetRevision: '{{ .targetRevision | default "HEAD" }}'
         {{- if .chart }}
         chart: '{{ .chart }}'
@@ -44,8 +44,11 @@ spec:
         {{- end }}
         helm:
           valueFiles:
-            - 'envs/dev/environment-values.yaml'
-            - 'app-values/{{ .name }}-values.yaml'
-            - '{{ .valuesFile }}'
+            - '$values/envs/dev/environment-values.yaml'
+            - '$values/app-values/{{ .name }}-values.yaml'
+            - '$values/{{ .valuesFile }}'
+      - repoURL: 'https://github.com/mdouek/argo-appset.git'
+        targetRevision: HEAD
+        ref: values
   syncPolicy:
     preserveResourcesOnDeletion: true
