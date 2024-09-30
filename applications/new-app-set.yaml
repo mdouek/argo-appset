@@ -46,7 +46,7 @@ spec:
             - 'app-values/{{app.name}}-values.yaml'          # Layer 2: Application-wide values for both local and external charts
             - 'envs/dev/{{app.name}}-values.yaml'            # Layer 3: Environment-specific app values
       destination:
-        server: '{{cluster}}'
+        server: 'https://kubernetes.{{cluster}}.svc'
         namespace: '{{app.namespace}}'
       syncPolicy:
         automated:

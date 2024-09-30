@@ -2,7 +2,7 @@
 environments:
   dev:
     clusters:
-      https://kubernetes.default.svc:
+      default:
         applications:
           - name: hello-world
             chart: hello-world
