@@ -19,42 +19,42 @@ spec:
               elementsYaml: "{{ .clusters | toJson }}"
   template:
     metadata:
-      name: 'dev-{{ .clusterName }}-{{ .applications.name }}'
+      name: 'dev-{{ .clusterName }}-{{ .applications.0.name }}'
     spec:
       project: default
       source:
         repoURL: |
-          {{- if .applications.localChart }}
+          {{- if .applications.0.localChart }}
           https://github.com/mdouek/argo-appset.git
           {{- else }}
-          {{ .applications.repoURL }}
+          {{ .applications.0.repoURL }}
           {{- end }}
         targetRevision: |
-          {{- if .applications.localChart }}
+          {{- if .applications.0.localChart }}
           HEAD
           {{- else }}
-          {{ .applications.version }}
+          {{ .applications.0.version }}
           {{- end }}
         chart: |
-          {{- if .applications.localChart }}
+          {{- if .applications.0.localChart }}
           null
           {{- else }}
-          {{ .applications.chart }}
+          {{ .applications.0.chart }}
           {{- end }}
         path: |
-          {{- if .applications.localChart }}
-          charts/{{ .applications.chart }}
+          {{- if .applications.0.localChart }}
+          charts/{{ .applications.0.chart }}
           {{- else }}
           null
           {{- end }}
         helm:
           valueFiles:
             - 'envs/dev/environment-values.yaml'
-            - 'app-values/{{ .applications.name }}-values.yaml'
-            - '{{ .applications.valuesFile }}'
+            - 'app-values/{{ .applications.0.name }}-values.yaml'
+            - '{{ .applications.0.valuesFile }}'
       destination:
         server: 'https://kubernetes.{{ .cluster }}.svc'
-        namespace: '{{ .applications.namespace }}'
+        namespace: '{{ .applications.0.namespace }}'
       syncPolicy:
         automated:
           prune: true
