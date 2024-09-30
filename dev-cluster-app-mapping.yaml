@@ -1,4 +1,3 @@
-default:
   - cluster: default
     applications:
       - name: hello-world
