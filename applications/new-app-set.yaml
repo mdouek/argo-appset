@@ -13,48 +13,48 @@ spec:
               repoURL: https://github.com/mdouek/argo-appset.git
               revision: HEAD
               files:
-                - path: "dev-cluster-app-mapping.yaml"
+                - path: "mappings/dev/*/config.yaml"
           - list:
               elements: []
-              elementsYaml: "{{ .clusters | toJson }}"
+              elementsYaml: "{{ .applications | toJson }}"
   template:
     metadata:
-      name: 'dev-{{ .clusterName }}-{{ .applications.0.name }}'
+      name: 'dev--{{ .applications.name }}'
     spec:
       project: default
       source:
         repoURL: |
-          {{- if .applications.0.localChart }}
+          {{- if .applications.localChart }}
           https://github.com/mdouek/argo-appset.git
           {{- else }}
-          {{ .applications.0.repoURL }}
+          {{ .applications.repoURL }}
           {{- end }}
         targetRevision: |
-          {{- if .applications.0.localChart }}
+          {{- if .applications.localChart }}
           HEAD
           {{- else }}
-          {{ .applications.0.version }}
+          {{ .applications.version }}
           {{- end }}
         chart: |
-          {{- if .applications.0.localChart }}
+          {{- if .applications.localChart }}
           null
           {{- else }}
-          {{ .applications.0.chart }}
+          {{ .applications.chart }}
           {{- end }}
         path: |
-          {{- if .applications.0.localChart }}
-          charts/{{ .applications.0.chart }}
+          {{- if .applications.localChart }}
+          charts/{{ .applications.chart }}
           {{- else }}
           null
           {{- end }}
         helm:
           valueFiles:
             - 'envs/dev/environment-values.yaml'
-            - 'app-values/{{ .applications.0.name }}-values.yaml'
-            - '{{ .applications.0.valuesFile }}'
+            - 'app-values/{{ .applications.name }}-values.yaml'
+            - '{{ .applications.valuesFile }}'
       destination:
-        server: 'https://kubernetes.{{ .cluster }}.svc'
-        namespace: '{{ .applications.0.namespace }}'
+        server: 'https://kubernetes.{{ index .path.segments 2 }}.svc'
+        namespace: '{{ .applications.namespace }}'
       syncPolicy:
         automated:
           prune: true
