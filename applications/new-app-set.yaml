@@ -6,15 +6,19 @@ metadata:
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
-  generators:
-    - git:
-        repoURL: 'https://github.com/mdouek/argo-appset.git'
-        revision: HEAD
-        files:
-          - path: dev-cluster-app-mapping.yaml
+    - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/mdouek/argo-appset.git
+              revision: HEAD
+              files:
+                - path: "dev-cluster-app-mapping.yaml"
+          - list:
+              elements: []
+              elementsYaml: "{{ .clusters | toJson }}"
   template:
     metadata:
-      name: 'dev-{{ index .Values.clusters "clusterName" }}-{{ .applications.name }}'
+      name: 'dev-{{ .clusterName" }}-{{ .applications.name }}'
     spec:
       project: default
       source:
