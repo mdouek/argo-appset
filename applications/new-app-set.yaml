@@ -18,11 +18,11 @@ spec:
               elementsYaml: "{{ .applications | toJson }}"
   template:
     metadata:
-      name: 'dev-{{ index .path.segments 2 }}-{{ .name }}'
+      name: 'dev-{{ .clusterName }}-{{ .name }}'
     spec:
       project: default
       destination:
-        server: 'https://kubernetes.{{ index .path.segments 2 }}.svc'
+        server: '.address'
         namespace: '{{ .namespace }}'
       syncPolicy:
         automated:
