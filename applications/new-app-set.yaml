@@ -47,7 +47,7 @@ spec:
           valueFiles:
             - '$values/envs/dev/environment-values.yaml'
             - '$values/app-values/{{ .name }}-values.yaml'
-            - '$values/{{ .valuesFile }}'
+            - '$values/envs/dev/{{ .name }}-values.yaml'
       - repoURL: 'https://github.com/mdouek/argo-appset.git'
         targetRevision: HEAD
         ref: values
