@@ -60,13 +60,8 @@ spec:
           {{- end }}
         helm:
           valueFiles:
-          {{- range $valueFile := .valueFiles }}
-            - {{ $valueFile }}
-          {{- end }}
-    {{- if .autoSync }}
-      syncPolicy:
-        automated:
-          prune: {{ .prune }}
-    {{- end }}
+            - 'envs/dev/environment-values.yaml'
+            - 'app-values/{{ .name }}-values.yaml'
+            - '{{ .valuesFile }}'
   syncPolicy:
     preserveResourcesOnDeletion: true
