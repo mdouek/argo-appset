@@ -14,7 +14,7 @@ spec:
           - path: dev-cluster-app-mapping.yaml
   template:
     metadata:
-      name: 'dev-{{ index .ApplicationSetParameters.clusters "clusterName" }}-{{ .applications.name }}'
+      name: 'dev-{{ index .Values.clusters "clusterName" }}-{{ .applications.name }}'
     spec:
       project: default
       source:
