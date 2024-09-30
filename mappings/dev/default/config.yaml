@@ -1,5 +1,5 @@
 clusterName: default
-address: https://kubernetes.{{ index .path.segments 2 }}.svc
+address: https://kubernetes.default.svc
 applications:
   - name: hello-world
     chartPath: charts/hello-world
