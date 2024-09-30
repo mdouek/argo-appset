@@ -14,42 +14,42 @@ spec:
           - path: dev-cluster-app-mapping.yaml
   template:
     metadata:
-      name: 'dev-{{ .cluster }}-{{ .application.name }}'
+      name: 'dev-{{ .cluster }}-{{ .name }}'
     spec:
       project: default
       source:
         repoURL: |
-          {{- if .application.localChart }}
+          {{- if .localChart }}
           https://github.com/mdouek/argo-appset.git
           {{- else }}
-          {{ .application.repoURL }}
+          {{ .repoURL }}
           {{- end }}
         targetRevision: |
-          {{- if .application.localChart }}
+          {{- if .localChart }}
           HEAD
           {{- else }}
-          {{ .application.version }}
+          {{ .version }}
           {{- end }}
         chart: |
-          {{- if not .application.localChart }}
-          {{ .application.chart }}
+          {{- if not .localChart }}
+          {{ .chart }}
           {{- else }}
           null
           {{- end }}
         path: |
-          {{- if .application.localChart }}
-          charts/{{ .application.chart }}
+          {{- if .localChart }}
+          charts/{{ .chart }}
           {{- else }}
           null
           {{- end }}
         helm:
           valueFiles:
             - 'envs/dev/environment-values.yaml'
-            - 'app-values/{{ .application.name }}-values.yaml'
-            - 'envs/dev/{{ .application.name }}-values.yaml'
+            - 'app-values/{{ .name }}-values.yaml'
+            - '{{ .valuesFile }}'
       destination:
         server: 'https://kubernetes.{{ .cluster }}.svc'
-        namespace: '{{ .application.namespace }}'
+        namespace: '{{ .namespace }}'
       syncPolicy:
         automated:
           prune: true
