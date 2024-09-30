@@ -18,7 +18,7 @@ spec:
               elementsYaml: "{{ .clusters | toJson }}"
   template:
     metadata:
-      name: 'dev-{{ .clusterName" }}-{{ .applications.name }}'
+      name: 'dev-{{ .clusterName" }}-{{ .applications.*.name }}'
     spec:
       project: default
       source:
