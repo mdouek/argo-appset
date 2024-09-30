@@ -12,7 +12,7 @@ spec:
           - path: dev-cluster-app-mapping.yaml  # Reference to your configuration file
   template:
     metadata:
-      name: 'test{{cluster}}'
+      name: 'test'
     spec:
       project: default
       source:  # Corrected indentation here
