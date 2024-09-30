@@ -8,7 +8,7 @@ spec:
     - git:
         repoURL: 'https://github.com/mdouek/argo-appset.git'
         revision: HEAD
-        directories:
+        files:
           - path: dev-cluster-app-mapping.yaml  # Reference to your configuration file
   template:
     metadata:
