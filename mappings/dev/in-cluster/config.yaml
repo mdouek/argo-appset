@@ -1,5 +1,4 @@
-clusterName: default
-address: in-cluster
+clusterName: in-cluster
 applications:
   - name: hello-world
     chartPath: charts/hello-world

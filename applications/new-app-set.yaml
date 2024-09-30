@@ -22,7 +22,7 @@ spec:
     spec:
       project: default
       destination:
-        name: '{{ .address }}'
+        name: '{{ .clusterName }}'
         namespace: '{{ .namespace }}'
       syncPolicy:
         automated:
