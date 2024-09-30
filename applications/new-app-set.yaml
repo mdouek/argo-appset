@@ -15,7 +15,7 @@ spec:
       name: 'dev-{{cluster}}-{{app.name}}'
     spec:
       project: default
-   source:
+      source:  # Corrected indentation here
         repoURL: |
           {{- if app.localChart }}
           https://github.com/mdouek/argo-appset.git  # Use local Git repo for local charts
@@ -42,9 +42,9 @@ spec:
           {{- end }}
         helm:
           valueFiles:
-            - 'envs/dev/environment-values.yaml'  # Layer 1: Environment-wide values
-            - 'app-values/{{app.name}}-values.yaml'           # Layer 2: Application-wide values for both local and external charts
-            - 'envs/dev/{{app.name}}-values.yaml' # Layer 3: Environment-specific app values
+            - 'envs/dev/environment-values.yaml'            # Layer 1: Environment-wide values
+            - 'app-values/{{app.name}}-values.yaml'          # Layer 2: Application-wide values for both local and external charts
+            - 'envs/dev/{{app.name}}-values.yaml'            # Layer 3: Environment-specific app values
       destination:
         server: '{{cluster}}'
         namespace: '{{app.namespace}}'
