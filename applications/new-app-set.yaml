@@ -13,9 +13,6 @@ spec:
               revision: HEAD
               files:
                 - path: "dev-cluster-app-mapping.yaml"
-          - list:
-              elements: []
-              elementsYaml: "{{ .clusters | toJson }}"
   template:
     metadata:
       name: 'test'
