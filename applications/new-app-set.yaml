@@ -22,7 +22,7 @@ spec:
     spec:
       project: default
       destination:
-        server: '{{ .address }}'
+        name: '{{ .address }}'
         namespace: '{{ .namespace }}'
       syncPolicy:
         automated:
