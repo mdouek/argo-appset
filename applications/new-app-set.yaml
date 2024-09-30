@@ -35,8 +35,13 @@ spec:
       source:
         repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
         targetRevision: '{{ .targetRevision | default "HEAD" }}'
-        chart: '{{ .chart | default null }}'
-        path: '{{ .chartPath | default null }}'
+        {{- if .chart }}
+        chart: '{{ .chart }}'
+        path: null
+        {{- else }}
+        path: '{{ .chartPath }}'
+        chart: null
+        {{- end }}
         helm:
           valueFiles:
             - 'envs/dev/environment-values.yaml'
