@@ -16,45 +16,45 @@ spec:
                 - path: "mappings/dev/*/config.yaml"
           - list:
               elements: []
-              elementsYaml: "{{ .applications | toJson }}"
+              elementsYaml: "{{  | toJson }}"
   template:
     metadata:
-      name: 'dev-{{ .applications.name }}'
+      name: 'dev-{{ .name }}'
     spec:
       project: default
       source:
         repoURL: |
-          {{- if .applications.localChart }}
+          {{- if .localChart }}
           https://github.com/mdouek/argo-appset.git
           {{- else }}
-          {{ .applications.repoURL }}
+          {{ .repoURL }}
           {{- end }}
         targetRevision: |
-          {{- if .applications.localChart }}
+          {{- if .localChart }}
           HEAD
           {{- else }}
-          {{ .applications.version }}
+          {{ .version }}
           {{- end }}
         chart: |
-          {{- if .applications.localChart }}
+          {{- if .localChart }}
           null
           {{- else }}
-          {{ .applications.chart }}
+          {{ .chart }}
           {{- end }}
         path: |
-          {{- if .applications.localChart }}
-          charts/{{ .applications.chart }}
+          {{- if .localChart }}
+          charts/{{ .chart }}
           {{- else }}
           null
           {{- end }}
         helm:
           valueFiles:
             - 'envs/dev/environment-values.yaml'
-            - 'app-values/{{ .applications.name }}-values.yaml'
-            - '{{ .applications.valuesFile }}'
+            - 'app-values/{{ .name }}-values.yaml'
+            - '{{ .valuesFile }}'
       destination:
         server: 'https://kubernetes.{{ index .path.segments 2 }}.svc'
-        namespace: '{{ .applications.namespace }}'
+        namespace: '{{ .namespace }}'
       syncPolicy:
         automated:
           prune: true
