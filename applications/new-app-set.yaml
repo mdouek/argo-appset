@@ -43,6 +43,7 @@ spec:
         chart: null
         {{- end }}
         helm:
+          ignoreMissingValueFiles: true
           valueFiles:
             - '$values/envs/dev/environment-values.yaml'
             - '$values/app-values/{{ .name }}-values.yaml'
