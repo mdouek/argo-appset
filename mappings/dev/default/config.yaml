@@ -4,6 +4,7 @@ applications:
     namespace: hello-world
     valuesFile: envs/dev/hello-world-values.yaml
     repoURL: idk
+    targetRevision: idk
   - name: jenkins
     repoURL: https://charts.jenkins.io
     chart: jenkins
