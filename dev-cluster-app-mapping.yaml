@@ -1,18 +1,14 @@
-# config/cluster-app-mapping.yaml
-environments:
-  dev:
-    clusters:
-      default:
-        apps:
-          - name: hello-world
-            chart: hello-world
-            version: HEAD
-            namespace: hello-world
-            valuesFile: envs/dev/hello-world-values.yaml
-            localChart: true 
-          - name: jenkins
-            repoURL: https://charts.jenkins.io # External Helm chart reference
-            chart: jenkins
-            version: 5.6.4
-            namespace: jenkins
-            valuesFile: envs/dev/jenkins-values.yaml
+default:
+  applications:
+    - name: hello-world
+      chart: hello-world
+      version: HEAD
+      namespace: hello-world
+      valuesFile: envs/dev/hello-world-values.yaml
+      localChart: true
+    - name: jenkins
+      repoURL: https://charts.jenkins.io
+      chart: jenkins
+      version: 5.6.4
+      namespace: jenkins
+      valuesFile: envs/dev/jenkins-values.yaml

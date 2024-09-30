@@ -4,6 +4,8 @@ metadata:
   name: dev-applicationset
   namespace: argocd
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
         repoURL: 'https://github.com/mdouek/argo-appset.git'
@@ -12,42 +14,42 @@ spec:
           - path: dev-cluster-app-mapping.yaml  # Reference to your configuration file
   template:
     metadata:
-      name: 'test'
+      name: 'dev-{{ .key }}-{{ .app.name }}'
     spec:
       project: default
-      source:  # Corrected indentation here
+      source:
         repoURL: |
-          {{- if app.localChart }}
+          {{- if .app.localChart }}
           https://github.com/mdouek/argo-appset.git  # Use local Git repo for local charts
           {{- else }}
-          {{ app.repoURL }}  # Use the external chart URL if `localChart` is false
+          {{ .app.repoURL }}  # Use the external chart URL if `localChart` is false
           {{- end }}
         targetRevision: |
-          {{- if app.localChart }}
+          {{- if .app.localChart }}
           HEAD  # Use HEAD revision for local charts
           {{- else }}
-          {{ app.version }}  # Use the provided version for external charts
+          {{ .app.version }}  # Use the provided version for external charts
           {{- end }}
         chart: |
-          {{- if not app.localChart }}
-          {{ app.chart }}  # Set chart to the application name for external charts
+          {{- if not .app.localChart }}
+          {{ .app.chart }}  # Set chart to the application name for external charts
           {{- else }}
           null  # Nullify `chart` for local charts
           {{- end }}
         path: |
-          {{- if app.localChart }}
-          charts/{{ app.chart }}  # Use local path for local charts
+          {{- if .app.localChart }}
+          charts/{{ .app.chart }}  # Use local path for local charts
           {{- else }}
           null  # Nullify `path` for external charts
           {{- end }}
         helm:
           valueFiles:
             - 'envs/dev/environment-values.yaml'            # Layer 1: Environment-wide values
-            - 'app-values/{{app.name}}-values.yaml'          # Layer 2: Application-wide values for both local and external charts
-            - 'envs/dev/{{app.name}}-values.yaml'            # Layer 3: Environment-specific app values
+            - 'app-values/{{ .app.name }}-values.yaml'       # Layer 2: Application-wide values for both local and external charts
+            - 'envs/dev/{{ .app.name }}-values.yaml'         # Layer 3: Environment-specific app values
       destination:
-        server: 'https://kubernetes.{{cluster}}.svc'
-        namespace: '{{app.namespace}}'
+        server: 'https://kubernetes.{{ .cluster }}.svc'
+        namespace: '{{ .app.namespace }}'
       syncPolicy:
         automated:
           prune: true
