@@ -22,6 +22,17 @@ spec:
       name: 'dev-{{ .name }}'
     spec:
       project: default
+      destination:
+        server: 'https://kubernetes.{{ index .path.segments 2 }}.svc'
+        namespace: '{{ .namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+  templatePatch: |
+    spec:
       source:
         repoURL: |
           {{- if .localChart }}
@@ -49,17 +60,13 @@ spec:
           {{- end }}
         helm:
           valueFiles:
-            - 'envs/dev/environment-values.yaml'
-            - 'app-values/{{ .name }}-values.yaml'
-            - '{{ .valuesFile }}'
-      destination:
-        server: 'https://kubernetes.{{ index .path.segments 2 }}.svc'
-        namespace: '{{ .namespace }}'
+          {{- range $valueFile := .valueFiles }}
+            - {{ $valueFile }}
+          {{- end }}
+    {{- if .autoSync }}
       syncPolicy:
         automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
+          prune: {{ .prune }}
+    {{- end }}
   syncPolicy:
     preserveResourcesOnDeletion: true
