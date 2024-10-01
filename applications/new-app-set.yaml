@@ -8,7 +8,7 @@ spec:
   generators:
     - matrix:
         generators:
-          - clusters: 
+          - clusters:
               selector:
                 matchLabels:
                   secretClusterName: in-cluster2
@@ -34,26 +34,30 @@ spec:
   templatePatch: |
     spec:
       sources:
-      - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
-        targetRevision: '{{ .targetRevision | default "HEAD" }}'
-        {{- if .chart }}
-        chart: '{{ .chart }}'
-        path: null
-        {{- else }}
-        path: '{{ .chartPath }}'
-        chart: null
-        {{- end }}
-        helm:
-          ignoreMissingValueFiles: true
-          values: |
-            clusterAnnotations:
-        {{ toYaml (omit (toDict .metadata.annotations) "kubectl.kubernetes.io/last-applied-configuration") | indent 4 }}
-          valueFiles:
-            - '$values/envs/dev/environment-values.yaml'
-            - '$values/app-values/{{ .appName }}-values.yaml'
-            - '$values/envs/dev/{{ .appName }}-values.yaml'
-      - repoURL: 'https://github.com/mdouek/argo-appset.git'
-        targetRevision: HEAD
-        ref: values
+        - repoURL: '{{ .repoURL | default "https://github.com/mdouek/argo-appset.git" }}'
+          targetRevision: '{{ .targetRevision | default "HEAD" }}'
+          {{- if .chart }}
+          chart: '{{ .chart }}'
+          path: null
+          {{- else }}
+          path: '{{ .chartPath }}'
+          chart: null
+          {{- end }}
+          helm:
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - '$values/envs/dev/environment-values.yaml'
+              - '$values/app-values/{{ .appName }}-values.yaml'
+              - '$values/envs/dev/{{ .appName }}-values.yaml'
+            values: |
+              annotations:
+{{- range $key, $value := .cluster.metadata.annotations }}
+  {{- if ne $key "kubectl.kubernetes.io/last-applied-configuration" }}
+                {{ $key }}: {{ $value | quote }}
+  {{- end }}
+{{- end }}
+        - repoURL: 'https://github.com/mdouek/argo-appset.git'
+          targetRevision: HEAD
+          ref: values
   syncPolicy:
     preserveResourcesOnDeletion: true
