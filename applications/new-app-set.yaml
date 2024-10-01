@@ -46,8 +46,8 @@ spec:
         helm:
           ignoreMissingValueFiles: true
           values: |
-              clusterAnnotations:
-          {{ .metadata.annotations | toYaml | indent 6 }}
+              clusterAnnotations:{{ .metadata.annotations.subdomain}}
+          
           valueFiles:
             - '$values/envs/dev/environment-values.yaml'
             - '$values/app-values/{{ .appName }}-values.yaml'
