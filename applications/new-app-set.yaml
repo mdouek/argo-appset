@@ -47,7 +47,7 @@ spec:
           ignoreMissingValueFiles: true
           values: |
               clusterAnnotations:
-          {{ metadata.annotations | toYaml | indent 6 }}
+          {{ .metadata.annotations | toYaml | indent 6 }}
           valueFiles:
             - '$values/envs/dev/environment-values.yaml'
             - '$values/app-values/{{ .appName }}-values.yaml'
