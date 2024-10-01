@@ -19,7 +19,7 @@ spec:
                 - path: "mappings/dev/*/applications.yaml"
   template:
     metadata:
-      name: 'dev-{{ .clusterName }}-{{ .name }}'
+      name: 'dev-{{ .clusterName }}-{{ .appName }}'
     spec:
       project: default
       destination:
@@ -47,8 +47,8 @@ spec:
           ignoreMissingValueFiles: true
           valueFiles:
             - '$values/envs/dev/environment-values.yaml'
-            - '$values/app-values/{{ .name }}-values.yaml'
-            - '$values/envs/dev/{{ .name }}-values.yaml'
+            - '$values/app-values/{{ .appName }}-values.yaml'
+            - '$values/envs/dev/{{ .appName }}-values.yaml'
       - repoURL: 'https://github.com/mdouek/argo-appset.git'
         targetRevision: HEAD
         ref: values

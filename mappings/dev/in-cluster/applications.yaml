@@ -1,5 +1,5 @@
 clusterName: in-cluster
-name: jenkins
+appName: jenkins
 namespace: jenkins
 repoURL: https://charts.jenkins.io
 chart: jenkins
