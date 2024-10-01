@@ -16,10 +16,7 @@ spec:
               repoURL: https://github.com/mdouek/argo-appset.git
               revision: HEAD
               files:
-                - path: "mappings/dev/*/*.yaml"
-          - list:
-              elements: []
-              elementsYaml: "{{ .applications | toJson }}"
+                - path: "mappings/dev/*/applications.yaml"
   template:
     metadata:
       name: 'dev-{{ .clusterName }}-{{ .name }}'
