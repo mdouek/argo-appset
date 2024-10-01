@@ -12,7 +12,7 @@ spec:
               repoURL: https://github.com/mdouek/argo-appset.git
               revision: HEAD
               files:
-                - path: "mappings/dev/*/config.yaml"
+                - path: "mappings/dev/*/*.yaml"
           - list:
               elements: []
               elementsYaml: "{{ .applications | toJson }}"
