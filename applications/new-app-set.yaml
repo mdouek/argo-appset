@@ -8,7 +8,7 @@ spec:
   generators:
     - matrix:
         generators:
-          - clusters:
+          - clusters: 
               selector:
                 matchLabels:
                   io.portainer.kubernetes.application.name: in-cluster2
@@ -47,13 +47,9 @@ spec:
           ignoreMissingValueFiles: true
           values: |
             clusterAnnotations:
-{{- $annotations := dict }}
-{{- range $key, $value := .metadata.annotations }}
-  {{- if ne $key "kubectl.kubernetes.io/last-applied-configuration" }}
-    {{- $_ := set $annotations $key $value }}
-  {{- end }}
-{{- end }}
-{{ $annotations | toYaml | indent 12 }}
+            {{- $annotations := .metadata.annotations }}
+            {{- $filteredAnnotations := unset $annotations "kubectl.kubernetes.io/last-applied-configuration" }}
+            {{ $filteredAnnotations | toYaml | indent 4 }}
           valueFiles:
             - '$values/envs/dev/environment-values.yaml'
             - '$values/app-values/{{ .appName }}-values.yaml'
