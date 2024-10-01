@@ -47,7 +47,7 @@ spec:
           ignoreMissingValueFiles: true
           values: |
             clusterAnnotations:
-        {{ toYaml (omit .metadata.annotations "kubectl.kubernetes.io/last-applied-configuration") | indent 4 }}
+        {{ toYaml (omit (toDict .metadata.annotations) "kubectl.kubernetes.io/last-applied-configuration") | indent 4 }}
           valueFiles:
             - '$values/envs/dev/environment-values.yaml'
             - '$values/app-values/{{ .appName }}-values.yaml'
