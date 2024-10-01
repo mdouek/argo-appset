@@ -46,8 +46,10 @@ spec:
         helm:
           ignoreMissingValueFiles: true
           values: |
-              clusterAnnotations:{{ .metadata.annotations.subdomain}}
-          
+            clusterAnnotations:
+        {{- $annotations := .metadata.annotations }}
+        {{- $filteredAnnotations := unset $annotations "kubectl.kubernetes.io/last-applied-configuration" }}
+        {{ $filteredAnnotations | toYaml | indent 4 }}
           valueFiles:
             - '$values/envs/dev/environment-values.yaml'
             - '$values/app-values/{{ .appName }}-values.yaml'
