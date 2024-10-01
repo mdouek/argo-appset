@@ -11,7 +11,7 @@ spec:
           - clusters: 
               selector:
                 matchLabels:
-                  io.portainer.kubernetes.application.name: in-cluster2
+                  secretClusterName: in-cluster2
           - git:
               repoURL: https://github.com/mdouek/argo-appset.git
               revision: HEAD
