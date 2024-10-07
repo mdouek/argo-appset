@@ -4,5 +4,5 @@ controller:
     ingressClassName: nginx
     annotations:
       kubernetes.io/ingress.class: nginx
-    hostName: jenkins.{{.Values.clusterAnnotations.subdomain}}
+    hostName: jenkins.mdouek.com
     path: "/"

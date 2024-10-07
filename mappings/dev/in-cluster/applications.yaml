@@ -1,6 +1,0 @@
-clusterName: in-cluster
-appName: jenkins
-namespace: jenkins
-repoURL: https://charts.jenkins.io
-chart: jenkins
-targetRevision: 5.6.4

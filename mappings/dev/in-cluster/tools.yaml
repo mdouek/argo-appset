@@ -1,5 +1,0 @@
-clusterName: in-cluster
-applications:
-  - name: hello-world
-    namespace: hello-world
-    chartPath: charts/hello-world
