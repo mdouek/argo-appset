@@ -1,29 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
   name: all-applications
   namespace: argocd
 spec:
-  goTemplate: true
-  generators:
-    - git:
-        repoURL: https://github.com/mdouek/argo-appset.git
-        revision: HEAD
-        files:
-          - path: "applications/*"
-  template:
-    metadata:
-      name: 'applicationsets'   # Each application will be named after its sub-directory
-    spec:
-      project: default
-      source:
-        repoURL: https://github.com/mdouek/argo-appset.git
-        path: '{{.path}}'         # This sets the path to each sub-directory found under 'applications/'
-        targetRevision: HEAD
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: 'argocd'   # Optional: dynamically set namespace if needed
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+  project: default
+  source:
+    repoURL: https://github.com/mdouek/argo-appset.git
+    path: applications
+    targetRevision: HEAD
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
