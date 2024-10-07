@@ -10,7 +10,7 @@ spec:
         repoURL: https://github.com/mdouek/argo-appset.git
         revision: HEAD
         files:
-          - path: "applications/*/"
+          - path: "applications/*"
   template:
     metadata:
       name: 'applicationsets'   # Each application will be named after its sub-directory
