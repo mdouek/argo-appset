@@ -19,6 +19,7 @@ spec:
         chart: jenkins                         # Name of the Helm chart
         targetRevision: "5.6.4"               # Chart version
         helm:
+          ignoreMissingValueFiles: true
           valueFiles:
             - '$values/envs/{{metadata.labels.environment}}/environment-values.yaml'
             - '$values/app-values/jenkins-values.yaml'
