@@ -18,7 +18,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/mdouek/argo-appset.git
-        path: '{{path}}'         # This sets the path to each sub-directory found under 'applications/'
+        path: '{{.path}}'         # This sets the path to each sub-directory found under 'applications/'
         targetRevision: HEAD
       destination:
         server: https://kubernetes.default.svc
