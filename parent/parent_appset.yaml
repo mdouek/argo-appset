@@ -4,6 +4,7 @@ metadata:
   name: all-applications
   namespace: argocd
 spec:
+  goTemplate: true
   generators:
     - git:
         repoURL: https://github.com/mdouek/argo-appset.git
@@ -12,7 +13,7 @@ spec:
           - path: "applications/*/*"
   template:
     metadata:
-      name: '{{path.basename}}'   # Each application will be named after its sub-directory
+      name: 'dev--{{ index (splitList "." .path.filenameNormalized) 0 }}'   # Each application will be named after its sub-directory
     spec:
       project: default
       source:
