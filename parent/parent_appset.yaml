@@ -13,12 +13,12 @@ spec:
           - path: "applications/*/"
   template:
     metadata:
-      name: '{{path.basename}}-child-applicationset'   # Each application will be named after its sub-directory
+      name: 'applicationsets'   # Each application will be named after its sub-directory
     spec:
       project: default
       source:
         repoURL: https://github.com/mdouek/argo-appset.git
-        path: 'applications/{{.path.basename}}/{{.path.basename}}-applicationset.yaml'         # This sets the path to each sub-directory found under 'applications/'
+        path: '{{.path}}'         # This sets the path to each sub-directory found under 'applications/'
         targetRevision: HEAD
       destination:
         server: https://kubernetes.default.svc
