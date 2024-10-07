@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: jenkins-applicationset
+  namespace: argocd
+spec:
+  generators:
+    - cluster:
+        selector:
+          matchLabels:
+            secretClusterName: in-cluster2   # Select clusters with this label
+  template:
+    metadata:
+      name: jenkins-{{name}}                 # Each application name will be prefixed with 'jenkins-' and the cluster name
+    spec:
+      project: default
+      sources:
+      - repoURL: https://charts.jenkins.io     # Jenkins Helm chart repository
+        chart: jenkins                         # Name of the Helm chart
+        targetRevision: "5.6.4"               # Chart version
+        helm:
+          valueFiles:
+            - '$values/envs/{{metadata.labels.environment}}/environment-values.yaml'
+            - '$values/app-values/jenkins-values.yaml'
+            - '$values/envs/dev/jenkins-values.yaml'
+      - repoURL: 'https://github.com/mdouek/argo-appset.git'
+        targetRevision: HEAD
+        ref: values
+      destination:
+        server: '{{server}}'                   # Use the dynamically selected cluster's server URL
+        namespace: jenkins                     # Namespace in the target cluster
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
