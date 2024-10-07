@@ -5,10 +5,10 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - cluster:
-        selector:
-          matchLabels:
-            secretClusterName: in-cluster2   # Select clusters with this label
+  - clusters:
+      selector:
+        matchLabels:
+          secretClusterName: in-cluster2
   template:
     metadata:
       name: jenkins-{{name}}                 # Each application name will be prefixed with 'jenkins-' and the cluster name
